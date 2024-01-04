@@ -1,6 +1,7 @@
 package com.example.spotify_pirata
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,24 +18,33 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 
 @Composable
 fun PantallaDeReproduccion(navController: NavHostController) {
 
-    Column (verticalArrangement = Arrangement.SpaceEvenly){
-        Text(text = "Reproduciendo ahora",
+    val exoPlayerViewModel: ViewModelListaReproduccion = viewModel()
+    val contexto = LocalContext.current
+
+    Column(verticalArrangement = Arrangement.SpaceEvenly) {
+        Text(
+            text = "Reproduciendo ahora",
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth())
-        Text(text = "Nombre de la canción - Nombre del artista")
-        Image(painter = painterResource(id = R.drawable.album_karol),
-            contentDescription = "Album de la karol G",
             modifier = Modifier.fillMaxWidth()
+        )
+        Text(text = "Nombre de la canción - Nombre del artista")
+        Image(
+            painter = painterResource(id = R.drawable.album_karol),
+            contentDescription = "Album de la karol G",
+            modifier = Modifier
+                .fillMaxWidth()
                 .height(350.dp)
-            )
+        )
         Column() {
             Slider(value = 1f, onValueChange = { })
             Row(
@@ -45,8 +55,10 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                 Text(text = "3:00")
             }
         }
-        Row (modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly){
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
 
             Icon(
                 imageVector = Icons.Filled.AccountCircle,
@@ -59,7 +71,11 @@ fun PantallaDeReproduccion(navController: NavHostController) {
             )
             Icon(
                 imageVector = Icons.Filled.PlayArrow,
-                contentDescription = "Play"
+                contentDescription = "Play",
+                modifier = Modifier.clickable {
+                    exoPlayerViewModel.crearExoPlayer(context = contexto)
+                    exoPlayerViewModel.reproducir(context = contexto)
+                }
             )
             Icon(
                 imageVector = Icons.Filled.ArrowForward,
