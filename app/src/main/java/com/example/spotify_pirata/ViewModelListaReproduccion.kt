@@ -18,7 +18,7 @@ class ViewModelListaReproduccion : ViewModel() {
     }
 
     fun reproducir(context : Context) {
-        val mediaItem = MediaItem.fromUri(obtenerRuta(context, "clair-de-lune"))
+        val mediaItem = MediaItem.fromUri(obtenerRuta(context, "clair_de_lune"))
         _reproductor.value!!.setMediaItem(mediaItem)
         _reproductor.value!!.playWhenReady = true
     }
