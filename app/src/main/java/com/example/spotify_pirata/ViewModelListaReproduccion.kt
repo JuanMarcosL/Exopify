@@ -93,9 +93,17 @@ class ViewModelListaReproduccion : ViewModel() {
     }
 
     fun clicAnterior(contexto: Context) {
-        _index.value--
-        if (_index.value < 0) {
-            _index.value = _canciones.value.lastIndex
+        if (_random.value) {
+            var temporal = (Math.random() * _canciones.value.size - 1).toInt()
+            if (temporal >= _index.value) {
+                temporal++
+            }
+            _index.value = temporal
+        } else {
+            _index.value--
+            if (_index.value < 0) {
+                _index.value = _canciones.value.lastIndex
+            }
         }
 
         val mediaItem =
@@ -104,9 +112,17 @@ class ViewModelListaReproduccion : ViewModel() {
     }
 
     fun clicSiguiente(contexto: Context) {
-        _index.value++
-        if (_index.value > _canciones.value.lastIndex) {
-            _index.value = 0
+        if (_random.value) {
+            var temporal = (Math.random() * _canciones.value.size - 1).toInt()
+            if (temporal >= _index.value) {
+                temporal++
+            }
+            _index.value = temporal
+        } else {
+            _index.value++
+            if (_index.value > _canciones.value.lastIndex) {
+                _index.value = 0
+            }
         }
 
         val mediaItem =
