@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,14 +70,20 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                         .height(350.dp)
                 )
                 Column(modifier = Modifier.padding(start = 20.dp, end = 20.dp)) {
+                    val canciones = exoPlayerViewModel.canciones.collectAsState()
+                    val index = exoPlayerViewModel.index.collectAsState()
+
+                    var nombreCancion = canciones.value[index.value].nombre
+                    var nombreModificado = nombreCancion.replace("_", " ")
                     Text(
-                        text = "Nombre de la canción",
+                        text = nombreModificado,
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
+                    var nombreArtista = canciones.value[index.value].artista
                     Text(
-                        text = "Nombre del artista",
+                        text = nombreArtista,
                         color = Color.White
                     )
 
@@ -114,7 +121,8 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                     Icon(
                         painter = painterResource(id = R.drawable.arrow_back_ios_fill0_wght400_grad0_opsz24),
                         contentDescription = "Anterior",
-                        tint = Color.White
+                        tint = Color.White,
+                        modifier = Modifier.clickable { exoPlayerViewModel.clicAnterior(contexto = contexto) }
                     )
 
                     val playIcon = rememberVectorPainter(image = Icons.Filled.PlayArrow)
@@ -139,7 +147,8 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                     Icon(
                         painter = painterResource(id = R.drawable.arrow_forward_ios_fill0_wght400_grad0_opsz24),
                         contentDescription = "Siguiente",
-                        tint = Color.White
+                        tint = Color.White,
+                        modifier = Modifier.clickable { exoPlayerViewModel.clicSiguiente(contexto = contexto) }
                     )
 
                     Icon(
