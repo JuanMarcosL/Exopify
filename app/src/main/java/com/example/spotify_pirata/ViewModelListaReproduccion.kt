@@ -12,7 +12,7 @@ import com.example.spotify_pirata.Utiles.Companion.obtenerRuta
 import kotlinx.coroutines.launch
 
 class ViewModelListaReproduccion : ViewModel() {
-    private var _reproductor : MutableStateFlow<ExoPlayer?> = MutableStateFlow(null)
+    private var _reproductor: MutableStateFlow<ExoPlayer?> = MutableStateFlow(null)
     val reproductor = _reproductor.asStateFlow()
 
     private var _canciones = MutableStateFlow(
@@ -43,14 +43,23 @@ class ViewModelListaReproduccion : ViewModel() {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_ENDED) {
                     if (_random.value) {
-                        _index.value = (Math.random() * _canciones.value.size).toInt()
+                        var temporal = (Math.random() * _canciones.value.size - 1).toInt()
+                        if (temporal >= _index.value) {
+                            temporal++
+                        }
+                        _index.value = temporal
                     } else {
                         _index.value++
                         if (_index.value > _canciones.value.lastIndex) {
                             _index.value = 0
                         }
                     }
-                    val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
+                    val mediaItem = MediaItem.fromUri(
+                        obtenerRuta(
+                            contexto,
+                            _canciones.value[_index.value].nombre
+                        )
+                    )
                     _reproductor.value!!.setMediaItem(mediaItem)
                 }
             }
@@ -79,6 +88,29 @@ class ViewModelListaReproduccion : ViewModel() {
 
     fun clicBucle() {
         _bucle.value = !_bucle.value
-        _reproductor.value!!.repeatMode = if (_bucle.value) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+        _reproductor.value!!.repeatMode =
+            if (_bucle.value) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+    }
+
+    fun clicAnterior(contexto: Context) {
+        _index.value--
+        if (_index.value < 0) {
+            _index.value = _canciones.value.lastIndex
+        }
+
+        val mediaItem =
+            MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
+        _reproductor.value!!.setMediaItem(mediaItem)
+    }
+
+    fun clicSiguiente(contexto: Context) {
+        _index.value++
+        if (_index.value > _canciones.value.lastIndex) {
+            _index.value = 0
+        }
+
+        val mediaItem =
+            MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
+        _reproductor.value!!.setMediaItem(mediaItem)
     }
 }
