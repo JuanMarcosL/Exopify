@@ -19,9 +19,9 @@ class ViewModelListaReproduccion : ViewModel() {
         listOf(
             Cancion("chop_suey", "", "System of a Down"),
             Cancion("the_fat_rat_rise_up", "", ""),
-            Cancion("the_fat_rat_rise_up", "", ""),
-            Cancion("the_fat_rat_rise_up", "", ""),
-            Cancion("the_fat_rat_rise_up", "", "")
+            Cancion("respira_el_momento", "", ""),
+            Cancion("pollito_pio", "", ""),
+            Cancion("telefono_carpintero", "", "")
         )
     )
     val canciones = _canciones.asStateFlow()

@@ -49,19 +49,7 @@ fun PantallaDeReproduccion(navController: NavHostController) {
     var isShuffleOn by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .wrapContentSize(Alignment.TopEnd)
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.light_mode_fill0_wght400_grad0_opsz24),
-            contentDescription = "modo claro",
-            tint = Color.White
-        )
-    }
-    Column(modifier = Modifier.background(color = Color.DarkGray),
+     Column(modifier = Modifier.background(color = Color.DarkGray),
         verticalArrangement = Arrangement.SpaceEvenly) {
 
 
@@ -119,7 +107,8 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                         painter = painterResource(id = R.drawable.shuffle_fill0_wght400_grad0_opsz24),
                         contentDescription = "Random",
                         tint = if (isShuffleOn) Color.Green else Color.White,
-                        modifier = Modifier.clickable { isShuffleOn = !isShuffleOn }
+                        modifier = Modifier.clickable { isShuffleOn = !isShuffleOn
+                        exoPlayerViewModel.clicAleatorio(contexto = contexto)}
                     )
 
                     Icon(
@@ -157,7 +146,8 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                         painter = painterResource(id = R.drawable.repeat_fill0_wght400_grad0_opsz24),
                         contentDescription = "Repetir",
                         tint = if (isRepeatOn) Color.Green else Color.White,
-                        modifier = Modifier.clickable { isRepeatOn = !isRepeatOn }
+                        modifier = Modifier.clickable { isRepeatOn = !isRepeatOn
+                        exoPlayerViewModel.clicBucle()}
                     )
                 }
             }
