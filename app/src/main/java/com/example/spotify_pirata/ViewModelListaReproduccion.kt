@@ -17,27 +17,40 @@ class ViewModelListaReproduccion : ViewModel() {
 
     private var _canciones = MutableStateFlow(
         listOf(
-            Cancion("chop_suey", "", ""),
+            Cancion("chop_suey", "", "System of a Down"),
             Cancion("the_fat_rat_rise_up", "", ""),
+            Cancion("the_fat_rat_rise_up", "", ""),
+            Cancion("the_fat_rat_rise_up", "", ""),
+            Cancion("the_fat_rat_rise_up", "", "")
         )
     )
     val canciones = _canciones.asStateFlow()
-    var index = 0
+
+    private var _index = MutableStateFlow(0)
+    val index = _index.asStateFlow()
+
+    private var _bucle = MutableStateFlow(false)
+    val bucle = _bucle.asStateFlow()
+
+    private var _random = MutableStateFlow(false)
+    val random = _random.asStateFlow()
+
     var reproduciendo = false
     var numeroClics = 0
 
     fun reproducirLista(contexto: Context) {
         _reproductor.value!!.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
-                if (playbackState == Player.STATE_READY) {
-                    _reproductor.value!!.playWhenReady = reproduciendo
-                    println(reproduciendo)
-                } else if (playbackState == Player.STATE_ENDED) {
-                    index++
-                    if (index > _canciones.value.lastIndex) {
-                        index = 0
+                if (playbackState == Player.STATE_ENDED) {
+                    if (_random.value) {
+                        _index.value = (Math.random() * _canciones.value.size).toInt()
+                    } else {
+                        _index.value++
+                        if (_index.value > _canciones.value.lastIndex) {
+                            _index.value = 0
+                        }
                     }
-                    val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[index].nombre))
+                    val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
                     _reproductor.value!!.setMediaItem(mediaItem)
                 }
             }
@@ -56,6 +69,16 @@ class ViewModelListaReproduccion : ViewModel() {
             }
         }
         reproduciendo = !reproduciendo
+        _reproductor.value!!.playWhenReady = reproduciendo
         numeroClics++
+    }
+
+    fun clicAleatorio(contexto: Context) {
+        _random.value = !_random.value
+    }
+
+    fun clicBucle() {
+        _bucle.value = !_bucle.value
+        _reproductor.value!!.repeatMode = if (_bucle.value) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
     }
 }
