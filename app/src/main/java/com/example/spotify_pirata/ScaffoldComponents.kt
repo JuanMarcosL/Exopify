@@ -30,22 +30,26 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun BarraInferior(funcionreproductor: () -> Unit, exoPlayerViewModel: ViewModelListaReproduccion) {
+fun BarraInferior(
+    funcionreproductor: () -> Unit,
+    exoPlayerViewModel: ViewModelListaReproduccion,
+    isLightMode: Boolean
+) {
 
     val contexto = LocalContext.current
 
     var isRepeatOn by remember { mutableStateOf(false) }
     var isShuffleOn by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
-    var isLightMode = exoPlayerViewModel.isLightMode.collectAsState()
+    //var isLightMode = exoPlayerViewModel.isLightMode.collectAsState()
 
     val temaModifier = Modifier
-        .background(if (isLightMode.value) Color.White else Color.DarkGray)
+        .background(if (isLightMode) Color.White else Color.DarkGray)
         .padding(16.dp)
 
-    val iconTint = if (isLightMode.value) Color.Black else Color.White
+    val iconTint = if (isLightMode) Color.Black else Color.White
 
-    val temaIcon = if (isLightMode.value) {
+    val temaIcon = if (isLightMode) {
         painterResource(id = R.drawable.dark_mode_fill0_wght400_grad0_opsz24)
 
     } else {
@@ -54,7 +58,7 @@ fun BarraInferior(funcionreproductor: () -> Unit, exoPlayerViewModel: ViewModelL
 
     BottomAppBar(
         modifier = Modifier.fillMaxWidth(),
-        containerColor = Color.Red
+        containerColor = if (isLightMode) Color.White else Color.DarkGray
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
