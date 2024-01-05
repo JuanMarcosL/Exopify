@@ -18,6 +18,9 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _reproductor: MutableStateFlow<ExoPlayer?> = MutableStateFlow(null)
     val reproductor = _reproductor.asStateFlow()
 
+    private var _isLightMode = MutableStateFlow(false)
+    val isLightMode = _isLightMode.asStateFlow()
+
     private var _canciones = MutableStateFlow(DataUp.canciones)
     val canciones = _canciones.asStateFlow()
 
@@ -172,5 +175,10 @@ class ViewModelListaReproduccion : ViewModel() {
                 _reproductor.value!!.setMediaItem(mediaItem)
             }
         }
+    }
+
+    fun cambiarModo() {
+        _isLightMode.value = !_isLightMode.value
+        println("cambiar Modo: ${isLightMode.value}")
     }
 }

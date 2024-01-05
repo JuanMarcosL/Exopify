@@ -18,17 +18,13 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,55 +37,55 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
 @Composable
-fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: ScaffoldViewModel = viewModel()) {
+fun PantallaDeReproduccion(navController: NavHostController, exoPlayerViewModel: ViewModelListaReproduccion = viewModel()) {
 
-    val exoPlayerViewModel: ViewModelListaReproduccion = viewModel()
+   // val exoPlayerViewModel: ViewModelListaReproduccion = viewModel()
     val contexto = LocalContext.current
-
+/*
     val corutinaScope = rememberCoroutineScope()
     LaunchedEffect(key1 = Unit) {
         corutinaScope.launch {
             exoPlayerViewModel.crearReproductor(contexto)
         }
-    }
+    }*/
 
     var isRepeatOn by remember { mutableStateOf(false) }
     var isShuffleOn by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
-    var isLightMode by remember { mutableStateOf(false) }
-
+    var isLightMode = exoPlayerViewModel.isLightMode.collectAsState()
+/*
     val temaModifier = Modifier
-        .background(if (isLightMode) Color.White else Color.DarkGray)
-        .padding(16.dp)
+        .background(if (isLightMode.value) Color.White else Color.DarkGray)
+        .padding(16.dp)*/
 
-    val iconTint = if (isLightMode) Color.Black else Color.White
+    val iconTint = if (isLightMode.value) Color.Black else Color.White
 
-    val temaIcon = if (isLightMode) {
+/*    val temaIcon = if (isLightMode.value) {
         painterResource(id = R.drawable.dark_mode_fill0_wght400_grad0_opsz24)
 
     } else {
         painterResource(id = R.drawable.light_mode_fill0_wght400_grad0_opsz24)
-    }
+    }*/
 
     val canciones = exoPlayerViewModel.canciones.collectAsState()
     val index = exoPlayerViewModel.index.collectAsState()
 
     Column(
         modifier = Modifier
-            .background(color = if (isLightMode) Color.White else Color.DarkGray)
+            .background(color = if (isLightMode.value) Color.White else Color.DarkGray)
     ) {
-        Row(modifier = Modifier.fillMaxWidth(),
+        /*Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End) {
             Icon(
                 painter = temaIcon,
                 contentDescription = "Mode",
                 tint = iconTint,
                 modifier = temaModifier.clickable {
-                                   isLightMode = !isLightMode
+                    exoPlayerViewModel.cambiarModo()
                 }
             )
-            SearchBar(){ exoPlayerViewModel.seleccionarCancion(contexto, it) }
-        }
+            //SearchBar(isLightMode.value){ exoPlayerViewModel.seleccionarCancion(contexto, it) }
+        }*/
         Column(modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(),
@@ -140,7 +136,6 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
 
                     var progreso by remember { mutableStateOf(0f) }
 
-
                     if (duracionMinutos > 0 && duracionSegundos >= 0 && posicionMinutos >= 0 && posicionSegundos >= 0) {
                         progreso = ((posicionMinutos * 60) + posicionSegundos).toFloat() /
                                 ((duracionMinutos * 60) + duracionSegundos).toFloat()
@@ -165,7 +160,6 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
                         modifier = Modifier.fillMaxWidth()
                     ) {
 
-
                         Text(
                             text = "$posicionMinutos:$posicionSegundos",
                             color = iconTint
@@ -177,7 +171,7 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
                     }
                 }
             }
-            Row(
+            /*Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
@@ -192,7 +186,6 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
                         exoPlayerViewModel.clicAleatorio(contexto = contexto)
                     }
                 )
-
                 Icon(
                     painter = painterResource(id = R.drawable.arrow_back_ios_fill0_wght400_grad0_opsz24),
                     contentDescription = "Anterior",
@@ -235,7 +228,7 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
                         exoPlayerViewModel.clicBucle()
                     }
                 )
-            }
+            }*/
         }
     }
 }

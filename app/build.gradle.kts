@@ -74,4 +74,5 @@ dependencies {
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.5")
     implementation("com.google.firebase:firebase-inappmessaging-ktx:20.4.0")
     implementation("androidx.navigation:navigation-compose:2.7.5")
+
 }

@@ -10,11 +10,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.spotify_pirata.Navigation.NavigationGraph
 import com.example.spotify_pirata.ui.theme.Spotify_PirataTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +31,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val exoPlayerViewModel: ViewModelListaReproduccion = viewModel()
+                    val contexto = LocalContext.current
 
+                    val corutinaScope = rememberCoroutineScope()
+                    LaunchedEffect(key1 = Unit) {
+                        corutinaScope.launch {
+                            exoPlayerViewModel.crearReproductor(contexto)
+                        }
+                    }
                     NavigationGraph()
                 }
             }
