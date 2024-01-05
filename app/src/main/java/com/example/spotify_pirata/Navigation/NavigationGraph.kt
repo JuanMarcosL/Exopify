@@ -37,7 +37,7 @@ fun NavigationGraph() {
     Scaffold(topBar = { BarraSuperior(titulo = "Reproductor de prueba", isLightMode.value, exoPlayerViewModel)},
         bottomBar = { BarraInferior(funcionreproductor = {
                       exoPlayerViewModel.crearReproductor(contexto)
-            }, exoPlayerViewModel)},
+            }, exoPlayerViewModel,isLightMode.value)},
         content = {
             // paddingValues representa los dp que hay para evitar que el contenido se solape con las barras
                 paddingValues ->
