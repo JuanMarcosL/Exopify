@@ -66,13 +66,15 @@ class ViewModelListaReproduccion : ViewModel() {
         })
     }
 
+    fun crearReproductor(contexto: Context) {
+        _reproductor.value = ExoPlayer.Builder(contexto).build()
+        reproductor.value!!.prepare()
+        val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[0].nombre))
+        _reproductor.value!!.setMediaItem(mediaItem)
+    }
+
     fun clicReproducir(contexto: Context) {
         if (numeroClics == 0) {
-            _reproductor.value = ExoPlayer.Builder(contexto).build()
-            reproductor.value!!.prepare()
-            val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[0].nombre))
-            _reproductor.value!!.setMediaItem(mediaItem)
-
             viewModelScope.launch {
                 reproducirLista(contexto)
             }
