@@ -3,12 +3,14 @@ package com.example.spotify_pirata
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import com.example.spotify_pirata.Utiles.Companion.obtenerRuta
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
@@ -55,13 +57,7 @@ class ViewModelListaReproduccion : ViewModel() {
         _reproductor.value!!.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_READY) {
-                    val duracionMs = _reproductor.value!!.duration
-                    _duracionMinutos.value = TimeUnit.MILLISECONDS.toMinutes(duracionMs).toInt()
-                    _duracionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(duracionMs) % 60).toInt()
-
-                    val posicionMs = _reproductor.value!!.currentPosition
-                    _posicionMinutos.value = TimeUnit.MILLISECONDS.toMinutes(posicionMs).toInt()
-                    _posicionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(posicionMs) % 60).toInt()
+                    actualizarDuracion()
                 }
                 if (playbackState == Player.STATE_ENDED) {
                     if (_random.value) {
@@ -81,9 +77,26 @@ class ViewModelListaReproduccion : ViewModel() {
                     )
                     _reproductor.value!!.setMediaItem(mediaItem)
                 }
-
             }
         })
+    }
+
+    fun actualizarDuracion() {
+        val duracionMs = _reproductor.value!!.duration
+        _duracionMinutos.value = TimeUnit.MILLISECONDS.toMinutes(duracionMs).toInt()
+        _duracionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(duracionMs) % 60).toInt()
+    }
+
+    fun actualizarPosicion() {
+        viewModelScope.launch {
+            while (true) {
+                val posicionMs = _reproductor.value!!.currentPosition
+                _posicionMinutos.value = TimeUnit.MILLISECONDS.toMinutes(posicionMs).toInt()
+                _posicionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(posicionMs) % 60).toInt()
+
+                delay(1000) //muy importante
+            }
+        }
     }
 
     fun crearReproductor(contexto: Context) {
@@ -97,11 +110,13 @@ class ViewModelListaReproduccion : ViewModel() {
         if (numeroClics == 0) {
             viewModelScope.launch {
                 reproducirLista(contexto)
+                actualizarPosicion()
             }
         }
         reproduciendo = !reproduciendo
         _reproductor.value!!.playWhenReady = reproduciendo
         numeroClics++
+        actualizarDuracion()
     }
 
     fun clicAleatorio(contexto: Context) {
