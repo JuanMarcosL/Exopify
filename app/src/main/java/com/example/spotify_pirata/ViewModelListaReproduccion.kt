@@ -18,7 +18,7 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _canciones = MutableStateFlow(
         listOf(
             Cancion("chop_suey", "", "System of a Down"),
-            Cancion("the_fat_rat_rise_up", "", "TheFatRat"),
+            Cancion("rise_up", "", "TheFatRat"),
             Cancion("respira_el_momento", "", "Calle 13"),
             Cancion("pollito_pio", "", "Pulcino Pio"),
             Cancion("telefono_carpintero", "", "Las ardillitas de Lalo Guerrero"),
