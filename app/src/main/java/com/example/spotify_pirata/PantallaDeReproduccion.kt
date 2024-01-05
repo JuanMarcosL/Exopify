@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -51,10 +52,7 @@ fun MyAppTheme(
 ) {
     val colorScheme = if (isDarkTheme) darkColorScheme() else lightColorScheme()
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        content = content
-    )
+
 }
 @Composable
 fun PantallaDeReproduccion(navController: NavHostController) {
@@ -76,15 +74,13 @@ fun PantallaDeReproduccion(navController: NavHostController) {
 
     var isLightMode by remember { mutableStateOf(false) }
 
-    // Modificador para cambiar el fondo y el color de texto basado en el modo claro/oscuro
+
     val temaModifier = Modifier
         .background(if (isLightMode) Color.White else Color.DarkGray)
         .padding(16.dp)
 
-    // Modificador para cambiar el color de los iconos basado en el modo claro/oscuro
     val iconTint = if (isLightMode) Color.Black else Color.White
 
-    // Cambia el ícono del tema basado en el modo claro/oscuro
     val temaIcon = if (isLightMode) {
         painterResource(id = R.drawable.dark_mode_fill0_wght400_grad0_opsz24)
 
@@ -107,7 +103,7 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                 }
             )
         }
-        Column(modifier = Modifier.fillMaxWidth(),
+        Column(modifier = Modifier.fillMaxWidth().fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
@@ -155,6 +151,8 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
+
+
                         Text(
                             text = "0:00",
                             color = iconTint

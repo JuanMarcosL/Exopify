@@ -38,6 +38,9 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _segundosReproducidos = MutableStateFlow(0)
     val segundosReproducidos = _segundosReproducidos.asStateFlow()
 
+    private var _duracion = MutableStateFlow( 0)
+    val duracion = _duracion.asStateFlow()
+
     var reproduciendo = false
     var numeroClics = 0
 
@@ -64,6 +67,7 @@ class ViewModelListaReproduccion : ViewModel() {
                         )
                     )
                     _reproductor.value!!.setMediaItem(mediaItem)
+                    _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
                 }
                 while (reproduciendo) {
                     _segundosReproducidos.value = (_reproductor.value!!.currentPosition / 1000).toInt()
@@ -77,6 +81,7 @@ class ViewModelListaReproduccion : ViewModel() {
         reproductor.value!!.prepare()
         val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[0].nombre))
         _reproductor.value!!.setMediaItem(mediaItem)
+        _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
     }
 
     fun clicReproducir(contexto: Context) {
@@ -117,6 +122,7 @@ class ViewModelListaReproduccion : ViewModel() {
         val mediaItem =
             MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
         _reproductor.value!!.setMediaItem(mediaItem)
+        _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
     }
 
     fun clicSiguiente(contexto: Context) {
@@ -136,6 +142,7 @@ class ViewModelListaReproduccion : ViewModel() {
         val mediaItem =
             MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
         _reproductor.value!!.setMediaItem(mediaItem)
+        _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
     }
 
     fun desplazarSlider(posicion : Int) {
