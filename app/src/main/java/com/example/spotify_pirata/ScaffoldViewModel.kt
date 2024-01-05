@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.asStateFlow
         }
 
 
-        private val _cancionActual = MutableStateFlow(R.drawable.album_karol)
-        val cancionActual = _cancionActual.asStateFlow()
+        //private val _cancionActual = MutableStateFlow(R.drawable.album_karol)
+       // val cancionActual = _cancionActual.asStateFlow()
 
 
         // Función que actualiza la canción actual

@@ -76,6 +76,9 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
         painterResource(id = R.drawable.light_mode_fill0_wght400_grad0_opsz24)
     }
 
+    val canciones = exoPlayerViewModel.canciones.collectAsState()
+    val index = exoPlayerViewModel.index.collectAsState()
+
     Column(
         modifier = Modifier
             .background(color = if (isLightMode) Color.White else Color.DarkGray)
@@ -96,6 +99,8 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
             .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
+            var nombreCancion = canciones.value[index.value].nombre
+            var nombreModificado = nombreCancion.replace("_", " ")
 
             Text(
                 text = "Reproduciendo ahora",
@@ -105,21 +110,18 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp
             )
-
+            val resourceId = contexto.resources.getIdentifier(nombreCancion, "drawable", contexto.packageName)
             Image(
-                painter = painterResource(id = R.drawable.album_karol),
-                contentDescription = "Album de la karol G",
+                painter = painterResource(id = resourceId),
+                contentDescription = "Album de $nombreCancion",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(350.dp)
             )
 
             Column(modifier = Modifier.padding(start = 20.dp, end = 20.dp)) {
-                val canciones = exoPlayerViewModel.canciones.collectAsState()
-                val index = exoPlayerViewModel.index.collectAsState()
 
-                var nombreCancion = canciones.value[index.value].nombre
-                var nombreModificado = nombreCancion.replace("_", " ")
+
 
                 Text(
                     text = nombreModificado,
@@ -191,7 +193,7 @@ fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: 
                     painter = painterResource(id = R.drawable.shuffle_fill0_wght400_grad0_opsz24),
                     contentDescription = "Random",
                     tint = if (isShuffleOn) Color.Green else iconTint,
-                    modifier = Modifier.clickable {2
+                    modifier = Modifier.clickable {
                         isShuffleOn = !isShuffleOn
                         exoPlayerViewModel.clicAleatorio(contexto = contexto)
                     }
