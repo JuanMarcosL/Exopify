@@ -35,6 +35,9 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _random = MutableStateFlow(false)
     val random = _random.asStateFlow()
 
+    private var _segundosReproducidos = MutableStateFlow(0)
+    val segundosReproducidos = _segundosReproducidos.asStateFlow()
+
     var reproduciendo = false
     var numeroClics = 0
 
@@ -61,6 +64,9 @@ class ViewModelListaReproduccion : ViewModel() {
                         )
                     )
                     _reproductor.value!!.setMediaItem(mediaItem)
+                }
+                while (reproduciendo) {
+                    _segundosReproducidos.value = (_reproductor.value!!.currentPosition / 1000).toInt()
                 }
             }
         })
@@ -130,5 +136,9 @@ class ViewModelListaReproduccion : ViewModel() {
         val mediaItem =
             MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
         _reproductor.value!!.setMediaItem(mediaItem)
+    }
+
+    fun desplazarSlider(posicion : Int) {
+        _reproductor.value!!.seekTo((posicion * 1000).toLong())
     }
 }
