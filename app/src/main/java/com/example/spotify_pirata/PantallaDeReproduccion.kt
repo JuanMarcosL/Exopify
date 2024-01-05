@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -45,7 +46,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 
 @Composable
-fun PantallaDeReproduccion(navController: NavHostController) {
+fun PantallaDeReproduccion(navController: NavHostController, viewModelScaffold: ScaffoldViewModel = viewModel()) {
 
     val exoPlayerViewModel: ViewModelListaReproduccion = viewModel()
     val contexto = LocalContext.current
@@ -60,10 +61,7 @@ fun PantallaDeReproduccion(navController: NavHostController) {
     var isRepeatOn by remember { mutableStateOf(false) }
     var isShuffleOn by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
-
-
     var isLightMode by remember { mutableStateOf(false) }
-
 
     val temaModifier = Modifier
         .background(if (isLightMode) Color.White else Color.DarkGray)
@@ -82,14 +80,14 @@ fun PantallaDeReproduccion(navController: NavHostController) {
         modifier = Modifier
             .background(color = if (isLightMode) Color.White else Color.DarkGray)
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End) {
             Icon(
                 painter = temaIcon,
                 contentDescription = "Mode",
                 tint = iconTint,
                 modifier = temaModifier.clickable {
-                    // Cambiar el estado y el tema al hacer clic
-                    isLightMode = !isLightMode
+                                   isLightMode = !isLightMode
                 }
             )
         }
@@ -138,16 +136,39 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                 )
 
                 Column(modifier = Modifier.padding(top = 50.dp)) {
-                    Slider(value = 1f, onValueChange = { })
+
+                    val duracionMinutos by exoPlayerViewModel.duracionMinutos.collectAsStateWithLifecycle()
+                    val duracionSegundos by exoPlayerViewModel.duracionSegundos.collectAsStateWithLifecycle()
+                    val posicionSegundos by exoPlayerViewModel.posicionSegundos.collectAsStateWithLifecycle()
+                    val posicionMinutos by exoPlayerViewModel.posicionMinutos.collectAsStateWithLifecycle()
+
+                    var progreso by remember { mutableStateOf(0f) }
+
+
+                    if (duracionMinutos > 0 && duracionSegundos >= 0 && posicionMinutos >= 0 && posicionSegundos >= 0) {
+                        progreso = ((posicionMinutos * 60) + posicionSegundos).toFloat() /
+                                ((duracionMinutos * 60) + duracionSegundos).toFloat()
+                    }
+
+                    Slider(
+                        value = progreso,
+                        onValueChange = { nuevoProgreso ->
+                            progreso = nuevoProgreso
+                            val nuevaPosicionSegundos = (progreso * ((duracionMinutos * 60) + duracionSegundos)).toInt()
+                            exoPlayerViewModel.desplazarSlider(nuevaPosicionSegundos)
+                        },
+                        valueRange = 0f..1f,
+                        steps = 1000,
+                        colors = SliderDefaults.colors(
+                            thumbColor = Color.Green
+                        )
+                    )
+
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.fillMaxWidth()
                     ) {
 
-                        val duracionMinutos by exoPlayerViewModel.duracionMinutos.collectAsStateWithLifecycle()
-                        val duracionSegundos by exoPlayerViewModel.duracionSegundos.collectAsStateWithLifecycle()
-                        val posicionSegundos by exoPlayerViewModel.posicionSegundos.collectAsStateWithLifecycle()
-                        val posicionMinutos by exoPlayerViewModel.posicionMinutos.collectAsStateWithLifecycle()
 
                         Text(
                             text = "$posicionMinutos:$posicionSegundos",
