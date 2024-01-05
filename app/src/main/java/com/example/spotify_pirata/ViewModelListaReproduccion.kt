@@ -60,9 +60,8 @@ class ViewModelListaReproduccion : ViewModel() {
                     _duracionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(duracionMs) % 60).toInt()
 
                     val posicionMs = _reproductor.value!!.currentPosition
-                    val posicionMinutos = TimeUnit.MILLISECONDS.toMinutes(posicionMs)
-                    val posicionSegundos = TimeUnit.MILLISECONDS.toSeconds(posicionMs) % 60
-                    println("posicion $posicionMinutos:$posicionSegundos")
+                    _posicionMinutos.value = TimeUnit.MILLISECONDS.toMinutes(posicionMs).toInt()
+                    _posicionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(posicionMs) % 60).toInt()
                 }
                 if (playbackState == Player.STATE_ENDED) {
                     if (_random.value) {
@@ -82,6 +81,7 @@ class ViewModelListaReproduccion : ViewModel() {
                     )
                     _reproductor.value!!.setMediaItem(mediaItem)
                 }
+
             }
         })
     }

@@ -44,17 +44,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 
-val LocalIsDarkTheme = compositionLocalOf { false }
-
-@Composable
-fun MyAppTheme(
-    isDarkTheme: Boolean = LocalIsDarkTheme.current,
-    content: @Composable () -> Unit,
-) {
-    val colorScheme = if (isDarkTheme) darkColorScheme() else lightColorScheme()
-
-
-}
 @Composable
 fun PantallaDeReproduccion(navController: NavHostController) {
 
