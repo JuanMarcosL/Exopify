@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import com.example.spotify_pirata.Utiles.Companion.obtenerRuta
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class ViewModelListaReproduccion : ViewModel() {
     private var _reproductor: MutableStateFlow<ExoPlayer?> = MutableStateFlow(null)
@@ -35,11 +36,17 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _random = MutableStateFlow(false)
     val random = _random.asStateFlow()
 
-    private var _segundosReproducidos = MutableStateFlow(0)
-    val segundosReproducidos = _segundosReproducidos.asStateFlow()
+    private var _duracionMinutos = MutableStateFlow( 0)
+    val duracionMinutos = _duracionMinutos.asStateFlow()
 
-    private var _duracion = MutableStateFlow( 0)
-    val duracion = _duracion.asStateFlow()
+    private var _duracionSegundos = MutableStateFlow( 0)
+    val duracionSegundos = _duracionSegundos.asStateFlow()
+
+    private var _posicionMinutos = MutableStateFlow( 0)
+    val posicionMinutos = _posicionMinutos.asStateFlow()
+
+    private var _posicionSegundos = MutableStateFlow( 0)
+    val posicionSegundos = _posicionSegundos.asStateFlow()
 
     var reproduciendo = false
     var numeroClics = 0
@@ -47,6 +54,16 @@ class ViewModelListaReproduccion : ViewModel() {
     fun reproducirLista(contexto: Context) {
         _reproductor.value!!.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == Player.STATE_READY) {
+                    val duracionMs = _reproductor.value!!.duration
+                    _duracionMinutos.value = TimeUnit.MILLISECONDS.toMinutes(duracionMs).toInt()
+                    _duracionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(duracionMs) % 60).toInt()
+
+                    val posicionMs = _reproductor.value!!.currentPosition
+                    val posicionMinutos = TimeUnit.MILLISECONDS.toMinutes(posicionMs)
+                    val posicionSegundos = TimeUnit.MILLISECONDS.toSeconds(posicionMs) % 60
+                    println("posicion $posicionMinutos:$posicionSegundos")
+                }
                 if (playbackState == Player.STATE_ENDED) {
                     if (_random.value) {
                         var temporal = (Math.random() * _canciones.value.size - 1).toInt()
@@ -64,10 +81,6 @@ class ViewModelListaReproduccion : ViewModel() {
                         obtenerRuta(contexto,_canciones.value[_index.value].nombre)
                     )
                     _reproductor.value!!.setMediaItem(mediaItem)
-                    _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
-                }
-                if (reproduciendo) {
-                    _segundosReproducidos.value = (_reproductor.value!!.currentPosition / 1000).toInt()
                 }
             }
         })
@@ -78,7 +91,6 @@ class ViewModelListaReproduccion : ViewModel() {
         reproductor.value!!.prepare()
         val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[0].nombre))
         _reproductor.value!!.setMediaItem(mediaItem)
-        _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
     }
 
     fun clicReproducir(contexto: Context) {
@@ -119,7 +131,6 @@ class ViewModelListaReproduccion : ViewModel() {
         val mediaItem =
             MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
         _reproductor.value!!.setMediaItem(mediaItem)
-        _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
     }
 
     fun clicSiguiente(contexto: Context) {
@@ -139,7 +150,6 @@ class ViewModelListaReproduccion : ViewModel() {
         val mediaItem =
             MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
         _reproductor.value!!.setMediaItem(mediaItem)
-        _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
     }
 
     fun desplazarSlider(posicion : Int) {

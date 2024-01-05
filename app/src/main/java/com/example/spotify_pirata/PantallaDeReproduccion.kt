@@ -155,14 +155,17 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                         modifier = Modifier.fillMaxWidth()
                     ) {
 
-                        val duracion by exoPlayerViewModel.duracion.collectAsStateWithLifecycle()
-                        val posicion by exoPlayerViewModel.segundosReproducidos.collectAsStateWithLifecycle()
+                        val duracionMinutos by exoPlayerViewModel.duracionMinutos.collectAsStateWithLifecycle()
+                        val duracionSegundos by exoPlayerViewModel.duracionSegundos.collectAsStateWithLifecycle()
+                        val posicionSegundos by exoPlayerViewModel.posicionSegundos.collectAsStateWithLifecycle()
+                        val posicionMinutos by exoPlayerViewModel.posicionMinutos.collectAsStateWithLifecycle()
+
                         Text(
-                            text = posicion.toString(),
+                            text = "$posicionMinutos:$posicionSegundos",
                             color = iconTint
                         )
                         Text(
-                            text = duracion.toString(),
+                            text = "$duracionMinutos:$duracionSegundos",
                             color = iconTint
                         )
                     }
