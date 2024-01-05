@@ -20,11 +20,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +40,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 
 val LocalIsDarkTheme = compositionLocalOf { false }
 
@@ -58,6 +61,13 @@ fun PantallaDeReproduccion(navController: NavHostController) {
 
     val exoPlayerViewModel: ViewModelListaReproduccion = viewModel()
     val contexto = LocalContext.current
+
+    val corutinaScope = rememberCoroutineScope()
+    LaunchedEffect(key1 = Unit) {
+        corutinaScope.launch {
+            exoPlayerViewModel.crearReproductor(contexto)
+        }
+    }
 
     var isRepeatOn by remember { mutableStateOf(false) }
     var isShuffleOn by remember { mutableStateOf(false) }
