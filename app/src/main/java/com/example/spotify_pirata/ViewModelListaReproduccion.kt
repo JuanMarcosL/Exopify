@@ -18,15 +18,7 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _reproductor: MutableStateFlow<ExoPlayer?> = MutableStateFlow(null)
     val reproductor = _reproductor.asStateFlow()
 
-    private var _canciones = MutableStateFlow(
-        listOf(
-            Cancion("chop_suey", "Toxicity", "System of a Down"),
-            Cancion("rise_up", "Single", "TheFatRat"),
-            Cancion("respira_el_momento", "Multiviral", "Calle 13"),
-            Cancion("pollito_pio", "Il pulcino Pio & friends", "Pulcino Pio"),
-            Cancion("telefono_carpintero", "Hablando con los animales", "Las ardillitas de Lalo Guerrero"),
-        )
-    )
+    private var _canciones = MutableStateFlow(DataUp.canciones)
     val canciones = _canciones.asStateFlow()
 
     private var _index = MutableStateFlow(0)
@@ -169,5 +161,16 @@ class ViewModelListaReproduccion : ViewModel() {
 
     fun desplazarSlider(posicion : Int) {
         _reproductor.value!!.seekTo((posicion * 1000).toLong())
+    }
+
+    fun seleccionarCancion(contexto : Context, nombre : String) {
+        _canciones.value.forEach {
+            if (it.nombre.replace('_', ' ') == nombre) {
+                _index.value = _canciones.value.indexOf(it)
+                val mediaItem =
+                    MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
+                _reproductor.value!!.setMediaItem(mediaItem)
+            }
+        }
     }
 }
