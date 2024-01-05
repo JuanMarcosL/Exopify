@@ -13,17 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,17 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 
-val LocalIsDarkTheme = compositionLocalOf { false }
-
-@Composable
-fun MyAppTheme(
-    isDarkTheme: Boolean = LocalIsDarkTheme.current,
-    content: @Composable () -> Unit,
-) {
-    val colorScheme = if (isDarkTheme) darkColorScheme() else lightColorScheme()
-
-
-}
 @Composable
 fun PantallaDeReproduccion(navController: NavHostController) {
 
@@ -93,13 +77,13 @@ fun PantallaDeReproduccion(navController: NavHostController) {
         modifier = Modifier
             .background(color = if (isLightMode) Color.White else Color.DarkGray)
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End) {
             Icon(
                 painter = temaIcon,
                 contentDescription = "Mode",
                 tint = iconTint,
                 modifier = temaModifier.clickable {
-                    // Cambiar el estado y el tema al hacer clic
                     isLightMode = !isLightMode
                 }
             )
@@ -158,6 +142,7 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                         val duracion by exoPlayerViewModel.duracion.collectAsStateWithLifecycle()
                         val posicion by exoPlayerViewModel.segundosReproducidos.collectAsStateWithLifecycle()
                         Text(
+
                             text = posicion.toString(),
                             color = iconTint
                         )
