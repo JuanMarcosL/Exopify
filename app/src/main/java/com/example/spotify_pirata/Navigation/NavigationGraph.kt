@@ -17,8 +17,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.spotify_pirata.BarraInferior
 import com.example.spotify_pirata.BarraSuperior
 import com.example.spotify_pirata.PantallaDeReproduccion
-import com.example.spotify_pirata.PantallaLogin
-import com.example.spotify_pirata.ScaffoldViewModel
 import com.example.spotify_pirata.ViewModelListaReproduccion
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,14 +25,12 @@ fun NavigationGraph() {
 
     val navController = rememberNavController()
 
-    val viewModelScaffold : ScaffoldViewModel = viewModel()
-
     val exoPlayerViewModel: ViewModelListaReproduccion = viewModel()
     val contexto = LocalContext.current
     var isLightMode = exoPlayerViewModel.isLightMode.collectAsState()
 
 
-    Scaffold(topBar = { BarraSuperior(titulo = "Reproductor de prueba", isLightMode.value, exoPlayerViewModel)},
+    Scaffold(topBar = { BarraSuperior(isLightMode.value, exoPlayerViewModel)},
         bottomBar = { BarraInferior(funcionreproductor = {
                       exoPlayerViewModel.crearReproductor(contexto)
             }, exoPlayerViewModel)},
@@ -48,8 +44,6 @@ fun NavigationGraph() {
                 color = Color.DarkGray
             ) {
                 NavHost(navController = navController, startDestination = Routs.PantallaDeReproduccion.rout){
-
-                    composable(Routs.Login.rout) { PantallaLogin(navController = navController, exoPlayerViewModel) }
                     composable(Routs.PantallaDeReproduccion.rout) { PantallaDeReproduccion(
                         navController = navController, exoPlayerViewModel) }
                 }
