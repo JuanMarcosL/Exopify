@@ -61,15 +61,12 @@ class ViewModelListaReproduccion : ViewModel() {
                         }
                     }
                     val mediaItem = MediaItem.fromUri(
-                        obtenerRuta(
-                            contexto,
-                            _canciones.value[_index.value].nombre
-                        )
+                        obtenerRuta(contexto,_canciones.value[_index.value].nombre)
                     )
                     _reproductor.value!!.setMediaItem(mediaItem)
                     _duracion.value = (_reproductor.value!!.duration / 1000).toInt()
                 }
-                while (reproduciendo) {
+                if (reproduciendo) {
                     _segundosReproducidos.value = (_reproductor.value!!.currentPosition / 1000).toInt()
                 }
             }

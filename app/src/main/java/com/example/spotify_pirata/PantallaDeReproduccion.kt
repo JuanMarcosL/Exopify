@@ -41,6 +41,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 
 val LocalIsDarkTheme = compositionLocalOf { false }
@@ -103,7 +104,9 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                 }
             )
         }
-        Column(modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
@@ -152,13 +155,14 @@ fun PantallaDeReproduccion(navController: NavHostController) {
                         modifier = Modifier.fillMaxWidth()
                     ) {
 
-
+                        val duracion by exoPlayerViewModel.duracion.collectAsStateWithLifecycle()
+                        val posicion by exoPlayerViewModel.segundosReproducidos.collectAsStateWithLifecycle()
                         Text(
-                            text = "0:00",
+                            text = posicion.toString(),
                             color = iconTint
                         )
                         Text(
-                            text = "3:00",
+                            text = duracion.toString(),
                             color = iconTint
                         )
                     }
