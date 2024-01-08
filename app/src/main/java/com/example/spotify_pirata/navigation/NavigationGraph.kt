@@ -74,13 +74,7 @@ fun NavigationGraph() {
                 BarraSuperior(
                     isLightMode.value,
                     exoPlayerViewModel,
-                    Modifier.constrainAs(searchBar) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                })
+                )
             }
         },
         bottomBar = {

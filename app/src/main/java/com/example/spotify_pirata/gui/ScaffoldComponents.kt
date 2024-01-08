@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -114,7 +116,6 @@ fun BarraInferior(
 fun BarraSuperior(
     isLightMode: Boolean,
     exoPlayerViewModel: ViewModelListaReproduccion,
-    constrainAs: Modifier
 ) {
     val contexto = LocalContext.current
 
@@ -129,40 +130,44 @@ fun BarraSuperior(
         painterResource(id = R.drawable.light_mode_fill0_wght400_grad0_opsz24)
     }
 
-    ConstraintLayout(
-        modifier = constrainAs // Utilizamos el modificador constrainAs aquí
-    ) {
-        val topAppBar = createRef()
+    var isSearchPanelOpen by remember { mutableStateOf(false) }
 
-        CenterAlignedTopAppBar(
-            modifier = Modifier.constrainAs(topAppBar) {
-                // Aquí puedes establecer las restricciones de posicionamiento
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                // Agrega otras restricciones según sea necesario
-            },
-            title = {
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                        .height(500.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    SearchBar(isLightMode) { exoPlayerViewModel.seleccionarCancion(contexto, it) }
-                    Icon(
-                        painter = temaIcon,
-                        contentDescription = "Mode",
-                        tint = iconTint,
-                        modifier = temaModifier.clickable {
-                            exoPlayerViewModel.cambiarModo()
-                        }
+    CenterAlignedTopAppBar(
+        title = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(500.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                /*if (isSearchPanelOpen) {
+                    SearchBar(
+                        isLightMode,
+                        { exoPlayerViewModel.seleccionarCancion(contexto, it) },
+                        onDismiss = { isSearchPanelOpen = false }
                     )
-                }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = if (isLightMode) Color.White else Color.DarkGray
-            )
+                }*/
+
+               /* Button(
+                    onClick = { isSearchPanelOpen = true },
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text("Mostrar panel de búsqueda")
+                }*/
+                SearchBar(isLightMode) { exoPlayerViewModel.seleccionarCancion(contexto, it) }
+                Icon(
+                    painter = temaIcon,
+                    contentDescription = "Mode",
+                    tint = iconTint,
+                    modifier = temaModifier.clickable {
+                        exoPlayerViewModel.cambiarModo()
+                    }
+                )
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = if (isLightMode) Color.White else Color.DarkGray
         )
-    }
+    )
 }
