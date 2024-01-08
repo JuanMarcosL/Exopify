@@ -130,7 +130,7 @@ fun BarraSuperior(
         painterResource(id = R.drawable.light_mode_fill0_wght400_grad0_opsz24)
     }
 
-    var isSearchPanelOpen by remember { mutableStateOf(false) }
+    //var isSearchPanelOpen by remember { mutableStateOf(false) }
 
     CenterAlignedTopAppBar(
         title = {

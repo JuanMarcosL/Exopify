@@ -70,7 +70,7 @@ fun NavigationGraph() {
             ConstraintLayout(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                val searchBar = createRef()
+                //val searchBar = createRef()
                 BarraSuperior(
                     isLightMode.value,
                     exoPlayerViewModel,
