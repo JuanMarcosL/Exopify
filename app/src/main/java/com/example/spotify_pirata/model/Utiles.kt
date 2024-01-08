@@ -1,4 +1,4 @@
-package com.example.spotify_pirata
+package com.example.spotify_pirata.model
 
 import android.content.Context
 

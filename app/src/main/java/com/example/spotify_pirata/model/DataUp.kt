@@ -1,4 +1,4 @@
-package com.example.spotify_pirata
+package com.example.spotify_pirata.model
 
 class DataUp {
     companion object {

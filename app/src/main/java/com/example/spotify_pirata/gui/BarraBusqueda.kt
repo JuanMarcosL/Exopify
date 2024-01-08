@@ -1,9 +1,7 @@
-package com.example.spotify_pirata
+package com.example.spotify_pirata.gui
 
-import android.view.Surface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,12 +24,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.SearchBar
 import androidx.compose.foundation.lazy.items
-
+import com.example.spotify_pirata.model.DataUp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +36,7 @@ import androidx.compose.foundation.lazy.items
 fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
 
     val songs = DataUp.canciones
-    var songsName: ArrayList<String> = ArrayList()
+    val songsName: ArrayList<String> = ArrayList()
     songs.forEach { songsName.add(it.nombre.replace('_', ' ')) }
     var query by remember { mutableStateOf("") }
     var isActive by remember { mutableStateOf(false) }
@@ -51,11 +48,9 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
             query = newQuery
             filteredSongs = songsName.filter { it.contains(newQuery, ignoreCase = true) }
         },
-        onSearch = { isActive = false
-            println("$isActive onSearch")},
+        onSearch = { isActive = false },
         active = isActive,
-        onActiveChange = { isActive = !isActive
-            println("$isActive onActiveChange")},
+        onActiveChange = { isActive = !isActive },
         placeholder = { Text("¿Cuál es la canción?") },
         leadingIcon = {
             Icon(
@@ -75,11 +70,8 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
             }
 
         },
-        modifier = Modifier
-            .fillMaxWidth(0.8f),
-        //.background(color = if(isLigthMode) Color.White else Color.DarkGray),
-        //shape = RectangleShape
-           ) {
+        modifier = Modifier.fillMaxWidth(0.8f),
+    ) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
 
@@ -89,7 +81,6 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
                     onClick = {
                         query = juego
                         isActive = false
-                        println(  println("$isActive onClick"))
                         onSearchSelected(juego)
                     }, modifier = Modifier
                         .fillMaxWidth()

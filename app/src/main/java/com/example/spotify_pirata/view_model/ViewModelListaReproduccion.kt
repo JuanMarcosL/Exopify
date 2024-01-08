@@ -1,15 +1,15 @@
-package com.example.spotify_pirata
+package com.example.spotify_pirata.view_model
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.example.spotify_pirata.Utiles.Companion.obtenerRuta
+import com.example.spotify_pirata.model.Utiles.Companion.obtenerRuta
+import com.example.spotify_pirata.model.DataUp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -45,10 +45,10 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _posicionSegundos = MutableStateFlow( 0)
     val posicionSegundos = _posicionSegundos.asStateFlow()
 
-    var reproduciendo = false
-    var numeroClics = 0
+    private var reproduciendo = false
+    private var numeroClics = 0
 
-    fun reproducirLista(contexto: Context) {
+    private fun reproducirLista(contexto: Context) {
         _reproductor.value!!.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_READY) {
@@ -82,7 +82,7 @@ class ViewModelListaReproduccion : ViewModel() {
         _duracionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(duracionMs) % 60).toInt()
     }
 
-    fun actualizarPosicion() {
+    private fun actualizarPosicion() {
         viewModelScope.launch {
             while (true) {
                 val posicionMs = _reproductor.value!!.currentPosition
@@ -114,7 +114,7 @@ class ViewModelListaReproduccion : ViewModel() {
         actualizarDuracion()
     }
 
-    fun clicAleatorio(contexto: Context) {
+    fun clicAleatorio() {
         _random.value = !_random.value
     }
 

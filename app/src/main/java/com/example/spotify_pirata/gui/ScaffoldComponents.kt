@@ -1,10 +1,11 @@
-package com.example.spotify_pirata
+package com.example.spotify_pirata.gui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -15,7 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,34 +27,22 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.spotify_pirata.R
+import com.example.spotify_pirata.view_model.ViewModelListaReproduccion
 
 
 @Composable
 fun BarraInferior(
-    funcionreproductor: () -> Unit,
     exoPlayerViewModel: ViewModelListaReproduccion,
     isLightMode: Boolean
 ) {
 
     val contexto = LocalContext.current
-
     var isRepeatOn by remember { mutableStateOf(false) }
     var isShuffleOn by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
-    //var isLightMode = exoPlayerViewModel.isLightMode.collectAsState()
-
-    val temaModifier = Modifier
-        .background(if (isLightMode) Color.White else Color.DarkGray)
-        .padding(16.dp)
-
     val iconTint = if (isLightMode) Color.Black else Color.White
-
-    val temaIcon = if (isLightMode) {
-        painterResource(id = R.drawable.dark_mode_fill0_wght400_grad0_opsz24)
-
-    } else {
-        painterResource(id = R.drawable.light_mode_fill0_wght400_grad0_opsz24)
-    }
 
     BottomAppBar(
         modifier = Modifier.fillMaxWidth(),
@@ -72,7 +60,7 @@ fun BarraInferior(
                 tint = if (isShuffleOn) Color.Green else iconTint,
                 modifier = Modifier.clickable {
                     isShuffleOn = !isShuffleOn
-                    exoPlayerViewModel.clicAleatorio(contexto = contexto)
+                    exoPlayerViewModel.clicAleatorio()
                 }
             )
             Icon(
@@ -83,8 +71,7 @@ fun BarraInferior(
             )
 
             val playIcon = rememberVectorPainter(image = Icons.Filled.PlayArrow)
-            val pauseIcon =
-                painterResource(id = R.drawable.pause_fill0_wght400_grad0_opsz24)
+            val pauseIcon = painterResource(id = R.drawable.pause_fill0_wght400_grad0_opsz24)
 
             val playPauseIcon = if (isPlaying) pauseIcon else playIcon
 
@@ -125,11 +112,11 @@ fun BarraInferior(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BarraSuperior(
-    titulo: String,
     isLightMode: Boolean,
-    exoPlayerViewModel: ViewModelListaReproduccion
+    exoPlayerViewModel: ViewModelListaReproduccion,
+    constrainAs: Modifier
 ) {
-    var contexto = LocalContext.current
+    val contexto = LocalContext.current
 
     val temaModifier = Modifier
         .background(if (isLightMode) Color.White else Color.DarkGray)
@@ -142,28 +129,40 @@ fun BarraSuperior(
         painterResource(id = R.drawable.light_mode_fill0_wght400_grad0_opsz24)
     }
 
-    CenterAlignedTopAppBar(
-        title = {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                SearchBar(isLightMode) { exoPlayerViewModel.seleccionarCancion(contexto, it) }
-                Icon(
-                    painter = temaIcon,
-                    contentDescription = "Mode",
-                    tint = iconTint,
-                    modifier = temaModifier.clickable {
-                        exoPlayerViewModel.cambiarModo()
-                    }
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = if (isLightMode) Color.White else Color.DarkGray
+    ConstraintLayout(
+        modifier = constrainAs // Utilizamos el modificador constrainAs aquí
+    ) {
+        val topAppBar = createRef()
+
+        CenterAlignedTopAppBar(
+            modifier = Modifier.constrainAs(topAppBar) {
+                // Aquí puedes establecer las restricciones de posicionamiento
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                // Agrega otras restricciones según sea necesario
+            },
+            title = {
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .height(500.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    SearchBar(isLightMode) { exoPlayerViewModel.seleccionarCancion(contexto, it) }
+                    Icon(
+                        painter = temaIcon,
+                        contentDescription = "Mode",
+                        tint = iconTint,
+                        modifier = temaModifier.clickable {
+                            exoPlayerViewModel.cambiarModo()
+                        }
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = if (isLightMode) Color.White else Color.DarkGray
+            )
         )
-
-    )
-
+    }
 }

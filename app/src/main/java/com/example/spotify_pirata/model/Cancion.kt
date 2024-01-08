@@ -1,6 +1,4 @@
-package com.example.spotify_pirata
-
-import androidx.compose.runtime.mutableStateListOf
+package com.example.spotify_pirata.model
 
 data class Cancion (
     val nombre : String,
