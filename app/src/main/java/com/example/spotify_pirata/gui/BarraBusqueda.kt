@@ -34,84 +34,79 @@ import com.example.spotify_pirata.model.DataUp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
-    //fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit, onDismiss: () -> Unit) {
     val songs = DataUp.canciones
     val songsName: ArrayList<String> = ArrayList()
     songs.forEach { songsName.add(it.nombre.replace('_', ' ')) }
     var query by remember { mutableStateOf("") }
-    var isActive by remember { mutableStateOf(false) }
+    var isActive by remember { mutableStateOf(true) }
     var filteredSongs: List<String> by remember { mutableStateOf(songsName) }
-    //BasicAlertDialog(onDismissRequest = { onDismiss() }) {
-        SearchBar(
-            query = query,
-            onQueryChange = { newQuery ->
-                query = newQuery
-                filteredSongs = songsName.filter { it.contains(newQuery, ignoreCase = true) }
-            },
-            onSearch = { isActive = false },
-            active = isActive,
-            onActiveChange = { isActive = !isActive },
-            placeholder = { Text("¿Cuál es la canción?") },
-            leadingIcon = {
+
+    SearchBar(
+        query = query,
+        onQueryChange = { newQuery ->
+            query = newQuery
+            filteredSongs = songsName.filter { it.contains(newQuery, ignoreCase = true) }
+        },
+        onSearch = { onSearchSelected(query) },
+        active = isActive,
+        onActiveChange = { },
+        placeholder = { Text("¿Cuál es la canción?") },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search, contentDescription = "Icono para buscar"
+            )
+        },
+        trailingIcon = {
+            IconButton(onClick = {
+                query = ""
+                filteredSongs = songsName
+                onSearchSelected("")
+            }) {
                 Icon(
-                    imageVector = Icons.Filled.Search, contentDescription = "Icono para buscar"
+                    imageVector = Icons.Filled.Clear,
+                    contentDescription = "Icono para borrar lo escrito"
                 )
-            },
-            trailingIcon = {
-                IconButton(onClick = {
-                    query = ""
-                    filteredSongs = songsName
-                    onSearchSelected("")
-                }) {
-                    Icon(
-                        imageVector = Icons.Filled.Clear,
-                        contentDescription = "Icono para borrar lo escrito"
-                    )
-                }
-            },
-            modifier = Modifier.fillMaxWidth(0.8f)
+            }
+        },
+        modifier = Modifier.fillMaxWidth(0.7f)
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth()
-
-            ) {
-                items(filteredSongs) { juego ->
-                    TextButton(
-                        onClick = {
-                            query = juego
-                            isActive = false
-                            onSearchSelected(juego)
-                        }, modifier = Modifier
+            items(filteredSongs) { juego ->
+                TextButton(
+                    onClick = {
+                        query = juego
+                        onSearchSelected(juego)
+                    }, modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = if (isLigthMode) Color.White else Color.DarkGray)
+                        .border(
+                            width = .5.dp,
+                            color = if (isLigthMode) Color.White else Color.DarkGray,
+                        )
+                ) {
+                    Row(
+                        modifier = Modifier
                             .fillMaxWidth()
-                            .background(color = if (isLigthMode) Color.White else Color.DarkGray)
-                            .border(
-                                width = .5.dp,
-                                color = if (isLigthMode) Color.White else Color.DarkGray,
-                            )
+                            .padding(5.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(5.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Star,
-                                contentDescription = "Icono de estrella",
-                                modifier = Modifier.size(24.dp),
-                                tint = Color.Green
-                            )
-
-                            Text(
-                                text = juego,
-                                fontSize = 26.sp,
-                                color = Color.Green,
-                                modifier = Modifier.padding(start = 10.dp)
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Filled.Star,
+                            contentDescription = "Icono de estrella",
+                            modifier = Modifier.size(24.dp),
+                            tint = Color.Green
+                        )
+                        Text(
+                            text = juego,
+                            fontSize = 26.sp,
+                            color = Color.Green,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
                     }
                 }
             }
         }
     }
-//}
+}

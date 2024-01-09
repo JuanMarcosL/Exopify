@@ -45,6 +45,9 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _posicionSegundos = MutableStateFlow( 0)
     val posicionSegundos = _posicionSegundos.asStateFlow()
 
+    private var _searchBarAbierta = MutableStateFlow( false)
+    val searchBarAbierta = _searchBarAbierta.asStateFlow()
+
     private var reproduciendo = false
     private var numeroClics = 0
 
@@ -96,9 +99,7 @@ class ViewModelListaReproduccion : ViewModel() {
 
     fun crearReproductor(contexto: Context) {
         _reproductor.value = ExoPlayer.Builder(contexto).build()
-        reproductor.value!!.prepare()
-        val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[0].nombre))
-        _reproductor.value!!.setMediaItem(mediaItem)
+        actualizarCancion(contexto)
     }
 
     fun clicReproducir(contexto: Context) {
@@ -177,8 +178,18 @@ class ViewModelListaReproduccion : ViewModel() {
         }
     }
 
+    fun actualizarCancion(contexto: Context){
+        _reproductor.value!!.clearMediaItems()
+        reproductor.value!!.prepare()
+        val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[index.value].nombre))
+        _reproductor.value!!.setMediaItem(mediaItem)
+    }
+
     fun cambiarModo() {
         _isLightMode.value = !_isLightMode.value
-        println("cambiar Modo: ${isLightMode.value}")
+    }
+
+    fun cambiarSearchBar() {
+        _searchBarAbierta.value = !_searchBarAbierta.value
     }
 }

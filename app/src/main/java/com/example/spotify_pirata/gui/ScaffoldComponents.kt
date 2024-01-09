@@ -11,10 +11,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -144,15 +148,15 @@ fun BarraSuperior(
                         { exoPlayerViewModel.seleccionarCancion(contexto, it) },
                         onDismiss = { isSearchPanelOpen = false }
                     )
-                }*/
-
-               /* Button(
-                    onClick = { isSearchPanelOpen = true },
+                }
+*/
+                Button(
+                    onClick = { exoPlayerViewModel.cambiarSearchBar() },
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text("Mostrar panel de búsqueda")
-                }*/
-                SearchBar(isLightMode) { exoPlayerViewModel.seleccionarCancion(contexto, it) }
+                }
+
                 Icon(
                     painter = temaIcon,
                     contentDescription = "Mode",
