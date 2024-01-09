@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.SearchBar
 import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.res.painterResource
+import com.example.spotify_pirata.R
 import com.example.spotify_pirata.model.DataUp
 
 
@@ -73,11 +75,11 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
         LazyColumn(
             modifier = Modifier.fillMaxWidth()
         ) {
-            items(filteredSongs) { juego ->
+            items(filteredSongs) { cancion ->
                 TextButton(
                     onClick = {
-                        query = juego
-                        onSearchSelected(juego)
+                        query = cancion
+                        onSearchSelected(cancion)
                     }, modifier = Modifier
                         .fillMaxWidth()
                         .background(color = if (isLigthMode) Color.White else Color.DarkGray)
@@ -93,13 +95,13 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            imageVector = Icons.Filled.Star,
-                            contentDescription = "Icono de estrella",
+                            painter = painterResource(id = R.drawable.music_note_fill0_wght400_grad0_opsz24),
+                            contentDescription = "Icono de nota musical",
                             modifier = Modifier.size(24.dp),
                             tint = Color.Green
                         )
                         Text(
-                            text = juego,
+                            text = cancion,
                             fontSize = 26.sp,
                             color = Color.Green,
                             modifier = Modifier.padding(start = 10.dp)

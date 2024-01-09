@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,10 +30,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.spotify_pirata.R
 import com.example.spotify_pirata.view_model.ViewModelListaReproduccion
 
@@ -138,8 +146,9 @@ fun BarraSuperior(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(500.dp),
-                horizontalArrangement = Arrangement.Center,
+                    .height(500.dp)
+                    .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 /*if (isSearchPanelOpen) {
@@ -150,12 +159,30 @@ fun BarraSuperior(
                     )
                 }
 */
-                Button(
-                    onClick = { exoPlayerViewModel.cambiarSearchBar() },
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text("Mostrar panel de búsqueda")
-                }
+//                Button(
+//                    onClick = { exoPlayerViewModel.cambiarSearchBar() },
+//                    modifier = Modifier.padding(16.dp)
+//                ) {
+//                    Text("Mostrar panel de búsqueda")
+//                }
+
+
+                Icon(
+                   imageVector = Icons.Filled.Search,
+                    contentDescription = "Lupita",
+                    tint = iconTint,
+                    modifier = Modifier.clickable {
+                        exoPlayerViewModel.cambiarSearchBar()
+                    }
+                )
+
+                Text(
+                    text = "ChaoticTunes",
+                    fontFamily = androidx.compose.ui.text.font.FontFamily.Cursive,
+                    fontSize = 36.sp,
+                    color = iconTint,
+                  fontWeight = FontWeight.Bold
+                )
 
                 Icon(
                     painter = temaIcon,
