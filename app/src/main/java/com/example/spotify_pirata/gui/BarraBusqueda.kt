@@ -38,7 +38,7 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
     val songsName: ArrayList<String> = ArrayList()
     songs.forEach { songsName.add(it.nombre.replace('_', ' ')) }
     var query by remember { mutableStateOf("") }
-    var isActive by remember { mutableStateOf(true) }
+    var isActive by remember { mutableStateOf(false) }
     var filteredSongs: List<String> by remember { mutableStateOf(songsName) }
 
     SearchBar(
@@ -48,9 +48,9 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
             filteredSongs = songsName.filter { it.contains(newQuery, ignoreCase = true) }
         },
         onSearch = { onSearchSelected(query)
-                   isActive = false},
+                  isActive = false},
         active = isActive,
-        onActiveChange = { },
+        onActiveChange = { isActive = !isActive },
         placeholder = { Text("¿Cuál es la canción?") },
         leadingIcon = {
             Icon(
@@ -61,7 +61,6 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
             IconButton(onClick = {
                 query = ""
                 filteredSongs = songsName
-                onSearchSelected("")
             }) {
                 Icon(
                     imageVector = Icons.Filled.Clear,
@@ -79,6 +78,7 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
                     onClick = {
                         query = juego
                         onSearchSelected(juego)
+                        isActive = false
                     }, modifier = Modifier
                         .fillMaxWidth()
                         .background(color = if (isLigthMode) Color.White else Color.DarkGray)
