@@ -21,7 +21,7 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _isLightMode = MutableStateFlow(false)
     val isLightMode = _isLightMode.asStateFlow()
 
-    private var _canciones = MutableStateFlow(DataUp.canciones)
+    private var _canciones = MutableStateFlow(DataUp.cosasRandom.canciones)
     val canciones = _canciones.asStateFlow()
 
     private var _index = MutableStateFlow(0)
