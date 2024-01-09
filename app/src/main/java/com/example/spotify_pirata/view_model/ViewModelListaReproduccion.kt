@@ -161,12 +161,21 @@ class ViewModelListaReproduccion : ViewModel() {
     }
 
     fun seleccionarCancion(contexto : Context, nombre : String) {
+        var encontrada = false
         _canciones.value.forEach {
             if (it.nombre.replace('_', ' ') == nombre) {
                 _index.value = _canciones.value.indexOf(it)
-                val mediaItem =
-                    MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
-                _reproductor.value!!.setMediaItem(mediaItem)
+                actualizarCancion(contexto)
+                encontrada = true
+            }
+        }
+        if (!encontrada && nombre != ""){
+            _canciones.value = DataUp.recopilarCanciones()
+            _canciones.value.forEach {
+                if (it.nombre.replace('_', ' ') == nombre) {
+                    _index.value = _canciones.value.indexOf(it)
+                    actualizarCancion(contexto)
+                }
             }
         }
     }
