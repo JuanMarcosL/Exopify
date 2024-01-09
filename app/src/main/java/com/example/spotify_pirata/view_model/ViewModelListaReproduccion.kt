@@ -48,7 +48,9 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _searchBarAbierta = MutableStateFlow( false)
     val searchBarAbierta = _searchBarAbierta.asStateFlow()
 
-    private var reproduciendo = false
+    private var _reproduciendo = MutableStateFlow( false)
+    val reproduciendo = _reproduciendo.asStateFlow()
+
     private var numeroClics = 0
 
     private fun reproducirLista(contexto: Context) {
@@ -99,6 +101,7 @@ class ViewModelListaReproduccion : ViewModel() {
 
     fun crearReproductor(contexto: Context) {
         _reproductor.value = ExoPlayer.Builder(contexto).build()
+        reproductor.value!!.prepare()
         actualizarCancion(contexto)
     }
 
@@ -109,8 +112,8 @@ class ViewModelListaReproduccion : ViewModel() {
                 actualizarPosicion()
             }
         }
-        reproduciendo = !reproduciendo
-        _reproductor.value!!.playWhenReady = reproduciendo
+        _reproduciendo.value = !_reproduciendo.value
+        _reproductor.value!!.playWhenReady = _reproduciendo.value
         numeroClics++
         actualizarDuracion()
     }
@@ -138,10 +141,7 @@ class ViewModelListaReproduccion : ViewModel() {
                 _index.value = _canciones.value.lastIndex
             }
         }
-
-        val mediaItem =
-            MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
-        _reproductor.value!!.setMediaItem(mediaItem)
+        actualizarCancion(contexto)
     }
 
     fun clicSiguiente(contexto: Context) {
@@ -152,15 +152,14 @@ class ViewModelListaReproduccion : ViewModel() {
             }
             _index.value = temporal
         } else {
-            _index.value++
-            if (_index.value > _canciones.value.lastIndex) {
-                _index.value = 0
-            }
-        }
 
-        val mediaItem =
-            MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[_index.value].nombre))
-        _reproductor.value!!.setMediaItem(mediaItem)
+                _index.value++
+                if (_index.value > _canciones.value.lastIndex) {
+                    _index.value = 0
+                }
+
+        }
+        actualizarCancion(contexto)
     }
 
     fun desplazarSlider(posicion : Int) {
@@ -179,8 +178,10 @@ class ViewModelListaReproduccion : ViewModel() {
     }
 
     fun actualizarCancion(contexto: Context){
+        if (numeroClics > 0) {
+            _index.value--
+        }
         _reproductor.value!!.clearMediaItems()
-        reproductor.value!!.prepare()
         val mediaItem = MediaItem.fromUri(obtenerRuta(contexto, _canciones.value[index.value].nombre))
         _reproductor.value!!.setMediaItem(mediaItem)
     }
