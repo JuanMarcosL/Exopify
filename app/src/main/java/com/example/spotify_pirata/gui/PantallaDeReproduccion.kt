@@ -51,7 +51,6 @@ fun PantallaDeReproduccion(
     val index = exoPlayerViewModel.index.collectAsState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val searchBarAbierta = exoPlayerViewModel.searchBarAbierta.collectAsState()
-//    val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = searchBarAbierta.value){
         if (searchBarAbierta.value){
@@ -67,9 +66,6 @@ fun PantallaDeReproduccion(
             SearchBar(isLightMode.value) {
                 exoPlayerViewModel.seleccionarCancion(contexto, it)
                 exoPlayerViewModel.cambiarSearchBar()
-                /*scope.launch{
-
-                }*/
             }
         },
         content = {
@@ -147,7 +143,7 @@ fun PantallaDeReproduccion(
                                     exoPlayerViewModel.desplazarSlider(nuevaPosicionSegundos)
                                 },
                                 valueRange = 0f..1f,
-                                steps = 1000,
+                                steps = duracionMinutos * 60 + duracionSegundos,
                                 colors = SliderDefaults.colors(
                                     thumbColor = Color.Green
                                 )

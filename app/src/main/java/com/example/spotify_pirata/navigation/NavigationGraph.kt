@@ -31,7 +31,6 @@ fun NavigationGraph() {
                     isLightMode.value,
                     exoPlayerViewModel,
                 )
-
         },
         bottomBar = {
             BarraInferior(exoPlayerViewModel, isLightMode.value)
