@@ -4,5 +4,5 @@ data class Disco (
     val nombre: String,
     val grupo: String,
     val fechaLanzamiento: Int,
-    val canciones: List<Cancion>
+    val canciones: ArrayList<Cancion>
 )

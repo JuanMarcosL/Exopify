@@ -36,7 +36,7 @@ import com.example.spotify_pirata.model.DataUp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
-    val songs = DataUp.canciones
+    val songs = DataUp.recopilarCanciones()
     val songsName: ArrayList<String> = ArrayList()
     songs.forEach { songsName.add(it.nombre.replace('_', ' ')) }
     var query by remember { mutableStateOf("") }

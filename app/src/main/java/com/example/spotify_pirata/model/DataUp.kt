@@ -4,7 +4,7 @@ class DataUp {
     companion object {
         val cosasRandom = Playlist(
             "Cosas Random", "cosas_random",
-            listOf(
+            arrayListOf(
                 Cancion("chop_suey", "Toxicity", "System of a Down"),
                 Cancion("rise_up", "Single", "TheFatRat"),
                 Cancion("respira_el_momento", "Multiviral", "Calle 13"),
@@ -18,7 +18,7 @@ class DataUp {
         )
         val rapLatino = Playlist(
             "Rap Latino", "rap_latino",
-            listOf(
+            arrayListOf(
                 Cancion("chop_suey", "Toxicity", "System of a Down"),
                 Cancion("rise_up", "Single", "TheFatRat"),
                 Cancion("respira_el_momento", "Multiviral", "Calle 13"),
@@ -32,7 +32,7 @@ class DataUp {
         )
         val reggae = Playlist(
             "Reggae", "reggae",
-            listOf(
+            arrayListOf(
                 Cancion("chop_suey", "Toxicity", "System of a Down"),
                 Cancion("rise_up", "Single", "TheFatRat"),
                 Cancion("respira_el_momento", "Multiviral", "Calle 13"),
@@ -47,15 +47,15 @@ class DataUp {
 
         val toxicity = Disco(
             "Toxicity","System of a Down",2001,
-            listOf(
+            arrayListOf(
                 Cancion("chop_suey", "Toxicity", "System of a Down"),
 
             )
         )
 
-        val cancerbero = Disco(
-            "Cancerbero","Cancerbero",2012,
-            listOf(
+        val canserbero = Disco(
+            "Canserbero","Canserbero",2012,
+            arrayListOf(
                 Cancion("chop_suey", "Toxicity", "System of a Down"),
 
                 )
@@ -63,10 +63,20 @@ class DataUp {
 
         val multiviral = Disco(
             "Multiviral","Calle 13",2014,
-            listOf(
+            arrayListOf(
                 Cancion("respira_el_momento", "Multiviral", "Calle 13"),
 
                 )
         )
+
+        fun recopilarCanciones() : List<Cancion> {
+            val lista : ArrayList<Cancion> = cosasRandom.canciones
+            lista.addAll(rapLatino.canciones)
+            lista.addAll(reggae.canciones)
+            lista.addAll(toxicity.canciones)
+            lista.addAll(canserbero.canciones)
+            lista.addAll(multiviral.canciones)
+            return lista
+        }
     }
 }
