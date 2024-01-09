@@ -59,8 +59,9 @@ class DataUp {
             )
         )
 
-        fun recopilarCanciones(): List<Cancion> {
-            val lista: ArrayList<Cancion> = cosasRandom.canciones
+        fun recopilarCanciones(): ArrayList<Cancion> {
+            val lista = ArrayList<Cancion>()
+            lista.addAll(cosasRandom.canciones)
             lista.addAll(rapLatino.canciones)
             lista.addAll(reggae.canciones)
             lista.addAll(toxicity.canciones)
