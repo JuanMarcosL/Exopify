@@ -168,7 +168,7 @@ fun BarraSuperior(
                         modifier = Modifier
                            // .size(30.dp)
                             .clickable {
-                                navController.popBackStack()
+                                navController.navigate("pantallaPrincipal")
                             },
                         tint = iconTint
                     )
