@@ -30,6 +30,7 @@ fun NavigationGraph() {
                 BarraSuperior(
                     isLightMode.value,
                     exoPlayerViewModel,
+                    navController
                 )
         },
         bottomBar = {
