@@ -4,11 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
@@ -39,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.spotify_pirata.R
 import com.example.spotify_pirata.view_model.ViewModelListaReproduccion
 
@@ -125,6 +129,7 @@ fun BarraInferior(
 fun BarraSuperior(
     isLightMode: Boolean,
     exoPlayerViewModel: ViewModelListaReproduccion,
+    navController: NavController
 ) {
     val contexto = LocalContext.current
 
@@ -151,31 +156,34 @@ fun BarraSuperior(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                /*if (isSearchPanelOpen) {
-                    SearchBar(
-                        isLightMode,
-                        { exoPlayerViewModel.seleccionarCancion(contexto, it) },
-                        onDismiss = { isSearchPanelOpen = false }
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Icon(
+                        painterResource(id = R.drawable.home_fill0_wght400_grad0_opsz24),
+                        contentDescription = "Botón para volver a la pantalla principal",
+                        modifier = Modifier
+                           // .size(30.dp)
+                            .clickable {
+                                navController.popBackStack()
+                            },
+                        tint = iconTint
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "Lupita",
+                        tint = iconTint,
+                        modifier = Modifier.clickable {
+                            exoPlayerViewModel.cambiarSearchBar()
+                        }
                     )
                 }
-*/
-//                Button(
-//                    onClick = { exoPlayerViewModel.cambiarSearchBar() },
-//                    modifier = Modifier.padding(16.dp)
-//                ) {
-//                    Text("Mostrar panel de búsqueda")
-//                }
-
-
-                Icon(
-                   imageVector = Icons.Filled.Search,
-                    contentDescription = "Lupita",
-                    tint = iconTint,
-                    modifier = Modifier.clickable {
-                        exoPlayerViewModel.cambiarSearchBar()
-                    }
-                )
-
                 Text(
                     text = "ChaoticTunes",
                     fontFamily = androidx.compose.ui.text.font.FontFamily.Cursive,
