@@ -1,9 +1,7 @@
 package com.example.spotify_pirata.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -17,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.spotify_pirata.gui.BarraInferior
 import com.example.spotify_pirata.gui.BarraSuperior
 import com.example.spotify_pirata.gui.PantallaDeReproduccion
+import com.example.spotify_pirata.gui.PantallaPrincipal
 import com.example.spotify_pirata.view_model.ViewModelListaReproduccion
 
 @Composable
@@ -47,9 +46,10 @@ fun NavigationGraph() {
                     startDestination = Routs.PantallaDeReproduccion.rout
                 ) {
                     composable(Routs.PantallaDeReproduccion.rout) {
-                        PantallaDeReproduccion(
-                            navController = navController, exoPlayerViewModel
-                        )
+                        PantallaDeReproduccion(navController = navController, exoPlayerViewModel)
+                    }
+                    composable(Routs.PantallaPrincipal.rout) {
+                        PantallaPrincipal(navController = navController, exoPlayerViewModel)
                     }
                 }
             }
