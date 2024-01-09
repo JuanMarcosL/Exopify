@@ -47,7 +47,8 @@ fun SearchBar(isLigthMode: Boolean, onSearchSelected: (String) -> Unit) {
             query = newQuery
             filteredSongs = songsName.filter { it.contains(newQuery, ignoreCase = true) }
         },
-        onSearch = { onSearchSelected(query) },
+        onSearch = { onSearchSelected(query)
+                   isActive = false},
         active = isActive,
         onActiveChange = { },
         placeholder = { Text("¿Cuál es la canción?") },
