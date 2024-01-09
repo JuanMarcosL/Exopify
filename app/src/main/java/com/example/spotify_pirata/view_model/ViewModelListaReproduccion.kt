@@ -27,12 +27,6 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _index = MutableStateFlow(0)
     val index = _index.asStateFlow()
 
-    private var _bucle = MutableStateFlow(false)
-    val bucle = _bucle.asStateFlow()
-
-    private var _random = MutableStateFlow(false)
-    val random = _random.asStateFlow()
-
     private var _duracionMinutos = MutableStateFlow( 0)
     val duracionMinutos = _duracionMinutos.asStateFlow()
 
@@ -48,9 +42,9 @@ class ViewModelListaReproduccion : ViewModel() {
     private var _searchBarAbierta = MutableStateFlow( false)
     val searchBarAbierta = _searchBarAbierta.asStateFlow()
 
-    private var _reproduciendo = MutableStateFlow( false)
-    val reproduciendo = _reproduciendo.asStateFlow()
-
+    private var reproduciendo = false
+    private var bucle = false
+    private var random = false
     private var numeroClics = 0
 
     private fun reproducirLista(contexto: Context) {
@@ -60,7 +54,7 @@ class ViewModelListaReproduccion : ViewModel() {
                     actualizarDuracion()
                 }
                 if (playbackState == Player.STATE_ENDED) {
-                    if (_random.value) {
+                    if (random) {
                         var temporal = (Math.random() * _canciones.value.size - 1).toInt()
                         if (temporal >= _index.value) {
                             temporal++
@@ -101,7 +95,7 @@ class ViewModelListaReproduccion : ViewModel() {
 
     fun crearReproductor(contexto: Context) {
         _reproductor.value = ExoPlayer.Builder(contexto).build()
-        reproductor.value!!.prepare()
+        _reproductor.value!!.prepare()
         actualizarCancion(contexto)
     }
 
@@ -112,24 +106,24 @@ class ViewModelListaReproduccion : ViewModel() {
                 actualizarPosicion()
             }
         }
-        _reproduciendo.value = !_reproduciendo.value
-        _reproductor.value!!.playWhenReady = _reproduciendo.value
+        reproduciendo = !reproduciendo
+        _reproductor.value!!.playWhenReady = reproduciendo
         numeroClics++
         actualizarDuracion()
     }
 
     fun clicAleatorio() {
-        _random.value = !_random.value
+        random = !random
     }
 
     fun clicBucle() {
-        _bucle.value = !_bucle.value
+        bucle = !bucle
         _reproductor.value!!.repeatMode =
-            if (_bucle.value) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+            if (bucle) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
     }
 
     fun clicAnterior(contexto: Context) {
-        if (_random.value) {
+        if (random) {
             var temporal = (Math.random() * _canciones.value.size - 1).toInt()
             if (temporal >= _index.value) {
                 temporal++
@@ -145,7 +139,7 @@ class ViewModelListaReproduccion : ViewModel() {
     }
 
     fun clicSiguiente(contexto: Context) {
-        if (_random.value) {
+        if (random) {
             var temporal = (Math.random() * _canciones.value.size - 1).toInt()
             if (temporal >= _index.value) {
                 temporal++
@@ -177,7 +171,7 @@ class ViewModelListaReproduccion : ViewModel() {
         }
     }
 
-    fun actualizarCancion(contexto: Context){
+    private fun actualizarCancion(contexto: Context){
         if (numeroClics > 0) {
             _index.value--
         }
