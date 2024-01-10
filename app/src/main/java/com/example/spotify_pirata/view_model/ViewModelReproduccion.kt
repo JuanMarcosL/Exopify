@@ -214,6 +214,7 @@ class ViewModelReproduccion : ViewModel() {
         _nombre.value = disco.nombre
         _grupo.value = disco.grupo
         _imagen.value = disco.imagen
+        _index.value = 0
     }
 
     fun seleccionarPlaylist(playlist : Playlist){
@@ -221,5 +222,6 @@ class ViewModelReproduccion : ViewModel() {
         _nombre.value = playlist.nombre
         _grupo.value = ""
         _imagen.value = playlist.imagen
+        _index.value = 0
     }
 }
