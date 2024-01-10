@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
@@ -32,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotify_pirata.model.DataUp
+import com.example.spotify_pirata.navigation.Routs
 import com.example.spotify_pirata.view_model.ViewModelListaReproduccion
 
 @Composable
@@ -72,6 +75,7 @@ fun PantallaPrincipal(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .fillMaxHeight(0.6f)
                         .padding(top = 16.dp, start = 16.dp, end = 16.dp)
                 ) {
 
@@ -150,6 +154,19 @@ fun PantallaPrincipal(
                                 Text("${playlist.canciones.size} canciones")
                             }
                         }
+                    }
+                }
+                Row (
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxHeight(0.2f)
+                        .fillMaxWidth()
+                ){
+                    Button(
+                        onClick = { navController.navigate(Routs.PantallaDeReproduccion.rout) }
+                    ) {
+                        Text(text = "Canción actual")
                     }
                 }
             }
