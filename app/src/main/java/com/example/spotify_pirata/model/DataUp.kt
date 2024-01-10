@@ -3,7 +3,7 @@ package com.example.spotify_pirata.model
 class DataUp {
     companion object {
         val cosasRandom = Playlist(
-            "Cosas Random", "cosas_random",
+            "Cosas Random", "rise_up",
             arrayListOf(
                 Cancion("chop_suey", "Toxicity", "System of a Down"),
                 Cancion("rise_up", "Single", "TheFatRat"),
@@ -17,7 +17,7 @@ class DataUp {
             )
         )
         val rapLatino = Playlist(
-            "Rap Latino", "rap_latino",
+            "Rap Latino", "adentro",
             arrayListOf(
                 Cancion("adentro", "Multiviral", "Calle 13"),
                 Cancion("jeremias17_5", "Canserbero", "Canserbero"),
@@ -26,7 +26,7 @@ class DataUp {
             )
         )
         val reggae = Playlist(
-            "Reggae", "reggae",
+            "Reggae", "aire",
             arrayListOf(
                 Cancion("aire", "Espejitos", "Los cafres"),
                 Cancion("binikini", "¿Quién trae las cornetas?", "Rawayana"),
@@ -36,7 +36,7 @@ class DataUp {
         )
 
         val toxicity = Disco(
-            "Toxicity", "System of a Down", 2001,
+            "Toxicity", "System of a Down", "toxicity",2001,
             arrayListOf(
                 Cancion("toxicity", "Toxicity", "System of a Down"),
                 Cancion("chop_suey", "Toxicity", "System of a Down")
@@ -44,7 +44,7 @@ class DataUp {
         )
 
         val canserbero = Disco(
-            "Canserbero", "Canserbero", 2012,
+            "Canserbero", "Canserbero", "jeremias17_5",2012,
             arrayListOf(
                 Cancion("jeremias17_5", "Canserbero", "Canserbero"),
                 Cancion("maquiavelico", "Canserbero", "Canserbero")
@@ -52,7 +52,7 @@ class DataUp {
         )
 
         val multiviral = Disco(
-            "Multiviral", "Calle 13", 2014,
+            "Multiviral", "Calle 13", "respira_el_momento",2014,
             arrayListOf(
                 Cancion("adentro", "Multiviral", "Calle 13"),
                 Cancion("respira_el_momento", "Multiviral", "Calle 13")
@@ -74,6 +74,22 @@ class DataUp {
                 }
             }
             return definitiva
+        }
+
+        fun recopilarDiscos(): ArrayList<Disco> {
+            val lista = ArrayList<Disco>()
+            lista.add(toxicity)
+            lista.add(canserbero)
+            lista.add(multiviral)
+            return lista
+        }
+
+        fun recopilarPlaylist(): ArrayList<Playlist> {
+            val lista = ArrayList<Playlist>()
+            lista.add(cosasRandom)
+            lista.add(rapLatino)
+            lista.add(reggae)
+            return lista
         }
     }
 }

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.spotify_pirata"
-        minSdk = 33
+        minSdk = 31
         //noinspection EditedTargetSdkVersion
         targetSdk = 34
         versionCode = 1

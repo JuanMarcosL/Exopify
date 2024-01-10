@@ -148,7 +148,7 @@ fun PantallaDeReproduccion(
                                     exoPlayerViewModel.desplazarSlider(nuevaPosicionSegundos)
                                 },
                                 valueRange = 0f..1f,
-                                steps = if (duracionMinutos * 60 + duracionSegundos > 0) duracionMinutos * 60 + duracionSegundos else 0,
+                                steps = ((duracionMinutos * 60) + duracionSegundos) ?: 0,
                                 colors = SliderDefaults.colors(
                                     thumbColor = Color.Green
                                 )
@@ -172,7 +172,6 @@ fun PantallaDeReproduccion(
                     }
                 }
             }
-
         }
     )
 }
