@@ -96,8 +96,8 @@ fun PantallaPrincipal(
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)
                                     .clickable {
-                                        exoPlayerViewModel.seleccionarDisco(disco, contexto)
                                         navController.navigate(Routs.PantallaDeReproduccion.rout)
+                                        exoPlayerViewModel.seleccionarDisco(disco, contexto)
                                     }
                             ) {
                                 val resourceId = contexto.resources.getIdentifier(
@@ -135,8 +135,8 @@ fun PantallaPrincipal(
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)
                                     .clickable {
-                                        exoPlayerViewModel.seleccionarPlaylist(playlist, contexto)
                                         navController.navigate(Routs.PantallaDeReproduccion.rout)
+                                        exoPlayerViewModel.seleccionarPlaylist(playlist, contexto)
                                     }
                             ) {
                                 val resourceId = contexto.resources.getIdentifier(
