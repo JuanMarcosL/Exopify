@@ -95,7 +95,7 @@ fun PantallaPrincipal(
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)
                                     .clickable {
-                                        exoPlayerViewModel.seleccionarDisco(disco)
+                                        exoPlayerViewModel.seleccionarDisco(disco, contexto)
                                         navController.navigate(Routs.PantallaDeReproduccion.rout)
                                     }
                             ) {
@@ -134,7 +134,7 @@ fun PantallaPrincipal(
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)
                                     .clickable {
-                                        exoPlayerViewModel.seleccionarPlaylist(playlist)
+                                        exoPlayerViewModel.seleccionarPlaylist(playlist, contexto)
                                         navController.navigate(Routs.PantallaDeReproduccion.rout)
                                     }
                             ) {

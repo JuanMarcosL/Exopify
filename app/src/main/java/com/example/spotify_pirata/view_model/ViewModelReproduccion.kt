@@ -209,19 +209,21 @@ class ViewModelReproduccion : ViewModel() {
         _searchBarAbierta.value = !_searchBarAbierta.value
     }
 
-    fun seleccionarDisco(disco : Disco){
+    fun seleccionarDisco(disco : Disco, contexto: Context){
         _canciones.value = disco.canciones
         _nombre.value = disco.nombre
         _grupo.value = disco.grupo
         _imagen.value = disco.imagen
         _index.value = 0
+        actualizarCancion(contexto)
     }
 
-    fun seleccionarPlaylist(playlist : Playlist){
+    fun seleccionarPlaylist(playlist : Playlist, contexto: Context){
         _canciones.value = playlist.canciones
         _nombre.value = playlist.nombre
         _grupo.value = ""
         _imagen.value = playlist.imagen
         _index.value = 0
+        actualizarCancion(contexto)
     }
 }
