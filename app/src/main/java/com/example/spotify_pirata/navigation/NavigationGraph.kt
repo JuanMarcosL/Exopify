@@ -45,7 +45,7 @@ fun NavigationGraph() {
             ) {
                 NavHost(
                     navController = navController,
-                    startDestination = Routs.PantallaDeReproduccion.rout
+                    startDestination = Routs.PantallaPrincipal.rout
                 ) {
                     composable(Routs.PantallaDeReproduccion.rout) {
                         PantallaDeReproduccion(navController = navController, exoPlayerViewModel)
