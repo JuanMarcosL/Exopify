@@ -10,11 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import com.example.spotify_pirata.model.Utiles.Companion.obtenerRuta
 import com.example.spotify_pirata.model.DataUp
+import com.example.spotify_pirata.model.Disco
+import com.example.spotify_pirata.model.Playlist
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
-class ViewModelListaReproduccion : ViewModel() {
+class ViewModelReproduccion : ViewModel() {
     private var _reproductor: MutableStateFlow<ExoPlayer?> = MutableStateFlow(null)
     val reproductor = _reproductor.asStateFlow()
 
@@ -41,6 +43,15 @@ class ViewModelListaReproduccion : ViewModel() {
 
     private var _searchBarAbierta = MutableStateFlow( false)
     val searchBarAbierta = _searchBarAbierta.asStateFlow()
+
+    private var _nombre = MutableStateFlow("")
+    val nombre = _nombre.asStateFlow()
+
+    private var _grupo = MutableStateFlow("")
+    val grupo = _grupo.asStateFlow()
+
+    private var _imagen = MutableStateFlow("")
+    val imagen = _imagen.asStateFlow()
 
     private var reproduciendo = false
     private var bucle = false
@@ -196,5 +207,19 @@ class ViewModelListaReproduccion : ViewModel() {
 
     fun cambiarSearchBar() {
         _searchBarAbierta.value = !_searchBarAbierta.value
+    }
+
+    fun seleccionarDisco(disco : Disco){
+        _canciones.value = disco.canciones
+        _nombre.value = disco.nombre
+        _grupo.value = disco.grupo
+        _imagen.value = disco.imagen
+    }
+
+    fun seleccionarPlaylist(playlist : Playlist){
+        _canciones.value = playlist.canciones
+        _nombre.value = playlist.nombre
+        _grupo.value = ""
+        _imagen.value = playlist.imagen
     }
 }

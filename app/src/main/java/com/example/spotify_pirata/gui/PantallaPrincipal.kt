@@ -35,12 +35,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.spotify_pirata.model.DataUp
 import com.example.spotify_pirata.navigation.Routs
-import com.example.spotify_pirata.view_model.ViewModelListaReproduccion
+import com.example.spotify_pirata.view_model.ViewModelReproduccion
 
 @Composable
 fun PantallaPrincipal(
     navController: NavController,
-    exoPlayerViewModel: ViewModelListaReproduccion
+    exoPlayerViewModel: ViewModelReproduccion
 ) {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -75,8 +75,8 @@ fun PantallaPrincipal(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.6f)
-                        .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                        .fillMaxHeight(0.7f)
+                        .padding(start = 16.dp, end = 16.dp)
                 ) {
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -95,7 +95,8 @@ fun PantallaPrincipal(
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)
                                     .clickable {
-
+                                        exoPlayerViewModel.seleccionarDisco(disco)
+                                        navController.navigate(Routs.PantallaDeReproduccion.rout)
                                     }
                             ) {
                                 val resourceId = contexto.resources.getIdentifier(
@@ -133,7 +134,8 @@ fun PantallaPrincipal(
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)
                                     .clickable {
-
+                                        exoPlayerViewModel.seleccionarPlaylist(playlist)
+                                        navController.navigate(Routs.PantallaDeReproduccion.rout)
                                     }
                             ) {
                                 val resourceId = contexto.resources.getIdentifier(
@@ -158,9 +160,9 @@ fun PantallaPrincipal(
                 }
                 Row (
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Top,
                     modifier = Modifier
-                        .fillMaxHeight(0.2f)
+                        .fillMaxHeight(0.3f)
                         .fillMaxWidth()
                 ){
                     Button(
