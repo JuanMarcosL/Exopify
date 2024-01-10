@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.spotify_pirata.R
 import com.example.spotify_pirata.view_model.ViewModelReproduccion
 
@@ -120,7 +121,7 @@ fun BarraInferior(
 fun BarraSuperior(
     isLightMode: Boolean,
     exoPlayerViewModel: ViewModelReproduccion,
-    navController: NavController
+    navController: NavHostController
 ) {
     val contexto = LocalContext.current
 
