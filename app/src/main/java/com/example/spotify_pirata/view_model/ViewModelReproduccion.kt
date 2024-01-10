@@ -95,11 +95,10 @@ class ViewModelReproduccion : ViewModel() {
     private fun actualizarPosicion() {
         viewModelScope.launch {
             while (true) {
-                if(_reproductor.value!!.isPlaying){
-                    val posicionMs = _reproductor.value!!.currentPosition
-                    _posicionMinutos.value = TimeUnit.MILLISECONDS.toMinutes(posicionMs).toInt()
-                    _posicionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(posicionMs) % 60).toInt()
-                }
+                val posicionMs = _reproductor.value!!.currentPosition
+                _posicionMinutos.value = TimeUnit.MILLISECONDS.toMinutes(posicionMs).toInt()
+                _posicionSegundos.value = (TimeUnit.MILLISECONDS.toSeconds(posicionMs) % 60).toInt()
+
                 delay(1000) //muy importante
             }
         }
