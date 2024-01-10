@@ -33,13 +33,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.spotify_pirata.model.DataUp
 import com.example.spotify_pirata.navigation.Routs
 import com.example.spotify_pirata.view_model.ViewModelReproduccion
 
 @Composable
 fun PantallaPrincipal(
-    navController: NavController,
+    navController: NavHostController,
     exoPlayerViewModel: ViewModelReproduccion
 ) {
 
@@ -75,7 +76,7 @@ fun PantallaPrincipal(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight(0.7f)
+                        .fillMaxHeight(0.75f)
                         .padding(start = 16.dp, end = 16.dp)
                 ) {
 
@@ -109,16 +110,16 @@ fun PantallaPrincipal(
                                     contentDescription = "Album: ${disco.nombre}",
                                     modifier = Modifier
                                         .height(125.dp)
-                                        .fillMaxHeight()
+                                        //.fillMaxHeight()
                                         .aspectRatio(1f)
                                         .scale(1f)
                                 )
-                                Text(disco.nombre)
-                                Text(disco.grupo)
+                                Text(disco.nombre,color = iconTint)
+                                Text(disco.grupo,color = iconTint)
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(50.dp))
+                    Spacer(modifier = Modifier.height(40.dp))
                     Text(
                         text = "Escucha tus listas de reproducción",
                         fontSize = 16.sp,
@@ -148,12 +149,12 @@ fun PantallaPrincipal(
                                     contentDescription = "Playlist: ${playlist.nombre}",
                                     modifier = Modifier
                                         .height(125.dp)
-                                        .fillMaxHeight()
+                                        //.fillMaxHeight()
                                         .aspectRatio(1f)
                                         .scale(1f)
                                 )
-                                Text(playlist.nombre)
-                                Text("${playlist.canciones.size} canciones")
+                                Text(playlist.nombre,color = iconTint)
+                                Text("${playlist.canciones.size} canciones",color = iconTint)
                             }
                         }
                     }
@@ -162,7 +163,7 @@ fun PantallaPrincipal(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.Top,
                     modifier = Modifier
-                        .fillMaxHeight(0.3f)
+                        .fillMaxHeight(0.25f)
                         .fillMaxWidth()
                 ){
                     Button(

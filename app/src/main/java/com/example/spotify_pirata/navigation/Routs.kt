@@ -4,5 +4,4 @@ sealed class Routs (val rout: String){
 
     object PantallaDeReproduccion : Routs("pantallaDeReproduccion")
     object PantallaPrincipal : Routs("pantallaPrincipal")
-    object PantallaSeleccion : Routs("pantallaSeleccion")
 }

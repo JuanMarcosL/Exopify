@@ -16,7 +16,6 @@ import com.example.spotify_pirata.gui.BarraInferior
 import com.example.spotify_pirata.gui.BarraSuperior
 import com.example.spotify_pirata.gui.PantallaDeReproduccion
 import com.example.spotify_pirata.gui.PantallaPrincipal
-import com.example.spotify_pirata.gui.PantallaSeleccion
 import com.example.spotify_pirata.view_model.ViewModelReproduccion
 
 @Composable
@@ -52,9 +51,6 @@ fun NavigationGraph() {
                     }
                     composable(Routs.PantallaPrincipal.rout) {
                         PantallaPrincipal(navController = navController, exoPlayerViewModel)
-                    }
-                    composable(Routs.PantallaSeleccion.rout) {
-                        PantallaSeleccion(navController = navController, exoPlayerViewModel)
                     }
                 }
             }
